@@ -1,8 +1,8 @@
 
-import geocoder
+import geocoder as geo
 
 def get_current_location():
-    g = geocoder.ip('me')
+    g = geo.ip('me')
     return g.latlng
 
 def main():
