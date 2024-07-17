@@ -1,6 +1,8 @@
-pip install folium:
+pip install
+folium:
 
-pip list | grep folium:
+pip list| 
+grep folium:
 
 
 
