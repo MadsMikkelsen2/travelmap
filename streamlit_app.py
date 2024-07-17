@@ -5,18 +5,31 @@ import requests
 # Streamlitアプリケーションのタイトルを設定する
 st.title('現在地を地図上に表示する')
 
+# IPアドレスを取得する関数
+def get_ip():
+    try:
+        response = requests.get('https://api.ipify.org?format=json')
+        ip_data = response.json()
+        return ip_data['ip'] if 'ip' in ip_data else None
+    except requests.RequestException as e:
+        st.error(f'IPアドレスの取得中にエラーが発生しました: {str(e)}')
+        return None
 
 # 現在の位置情報を取得するAPIのURL
 location_api_url = 'http://ip-api.com/json/'
 
 # 現在の位置情報を取得する関数
 def get_location(ip):
-    response = requests.get(location_api_url + ip)
-    if response.status_code == 200:
-        location_data = response.json()
-        return location_data
-    else:
-        st.error(f'位置情報を取得できませんでした。ステータスコード: {response.status_code}')
+    try:
+        response = requests.get(location_api_url + ip)
+        if response.status_code == 200:
+            location_data = response.json()
+            return location_data
+        else:
+            st.error(f'位置情報を取得できませんでした。ステータスコード: {response.status_code}')
+            return None
+    except requests.RequestException as e:
+        st.error(f'位置情報の取得中にエラーが発生しました: {str(e)}')
         return None
 
 # 現在のIPアドレスを取得する
@@ -42,4 +55,3 @@ if ip_address:
         st.write('位置情報が取得できませんでした。')
 else:
     st.write('IPアドレスが取得できませんでした。')
-
