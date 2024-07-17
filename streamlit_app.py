@@ -1,6 +1,10 @@
 # 必要なライブラリをインポートする
 import streamlit as st
 import folium
+from streamlit_folium import folium_static  # 必要に応じて追加
+
+# 以下にアプリケーションのコードを記述します
+
 
 # Streamlitアプリケーションのタイトルを設定する
 st.title('日本地図を表示する')
