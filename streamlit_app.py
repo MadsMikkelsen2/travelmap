@@ -24,9 +24,6 @@ folium_static(m)
 # 地図を作成する
 m = folium.Map(location=[36.2048, 138.2529], zoom_start=5)  # 初期位置を日本の中心に設定する
 
-# 各都市のマーカーを地図に追加する
-for city, coord in cities.items():
-    folium.Marker(coord, popup=city).add_to(m)
 
 # Streamlitで地図を表示する
 folium_static(m)
