@@ -9,14 +9,17 @@ from streamlit_folium import folium_static  # 必要に応じて追加
 # Streamlitアプリケーションのタイトルを設定する
 st.title('日本地図を表示する')
 
-# 日本の主要都市の位置情報（緯度と経度）
-cities = {
-    '東京': (35.6895, 139.6917),
-    '大阪': (34.6937, 135.5023),
-    '名古屋': (35.1815, 136.9066),
-    '札幌': (43.0618, 141.3545),
-    '福岡': (33.5903, 130.4019)
-}
+# 日本の中心座標を指定する（おおよその位置）
+japan_center = (36.2048, 138.2529)
+
+# Foliumの地図オブジェクトを作成する
+m = folium.Map(location=japan_center, zoom_start=6)
+
+# Streamlitのウィジェットに地図を表示する
+folium_static(m)
+
+
+
 
 # 地図を作成する
 m = folium.Map(location=[36.2048, 138.2529], zoom_start=5)  # 初期位置を日本の中心に設定する
