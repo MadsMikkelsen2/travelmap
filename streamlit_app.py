@@ -35,4 +35,13 @@ if ip_address:
     st.map((location_data['lat'], location_data['lon']))
 
     # 位置情報の詳細を表示する
-    st.write(f'現在地の情報
+    st.write(f'現在地の情報:')
+    st.write(f'都市: {location_data["city"]}')
+    st.write(f'国: {location_data["country"]}')
+    st.write(f'緯度: {location_data["lat"]}')
+    st.write(f'経度: {location_data["lon"]}')
+    st.write(f'ISP: {location_data["isp"]}')
+
+else:
+    st.write('IPアドレスが取得できませんでした。')
+
