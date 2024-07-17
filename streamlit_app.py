@@ -1,57 +1,25 @@
 # 必要なライブラリをインポートする
 import streamlit as st
-import requests
+import folium
 
 # Streamlitアプリケーションのタイトルを設定する
-st.title('現在地を地図上に表示する')
+st.title('日本地図を表示する')
 
-# IPアドレスを取得する関数
-def get_ip():
-    try:
-        response = requests.get('https://api.ipify.org?format=json')
-        ip_data = response.json()
-        return ip_data['ip'] if 'ip' in ip_data else None
-    except requests.RequestException as e:
-        st.error(f'IPアドレスの取得中にエラーが発生しました: {str(e)}')
-        return None
+# 日本の主要都市の位置情報（緯度と経度）
+cities = {
+    '東京': (35.6895, 139.6917),
+    '大阪': (34.6937, 135.5023),
+    '名古屋': (35.1815, 136.9066),
+    '札幌': (43.0618, 141.3545),
+    '福岡': (33.5903, 130.4019)
+}
 
-# 現在の位置情報を取得するAPIのURL
-location_api_url = 'http://ip-api.com/json/'
+# 地図を作成する
+m = folium.Map(location=[36.2048, 138.2529], zoom_start=5)  # 初期位置を日本の中心に設定する
 
-# 現在の位置情報を取得する関数
-def get_location(ip):
-    try:
-        response = requests.get(location_api_url + ip)
-        if response.status_code == 200:
-            location_data = response.json()
-            return location_data
-        else:
-            st.error(f'位置情報を取得できませんでした。ステータスコード: {response.status_code}')
-            return None
-    except requests.RequestException as e:
-        st.error(f'位置情報の取得中にエラーが発生しました: {str(e)}')
-        return None
+# 各都市のマーカーを地図に追加する
+for city, coord in cities.items():
+    folium.Marker(coord, popup=city).add_to(m)
 
-# 現在のIPアドレスを取得する
-ip_address = get_ip()
-
-# IPアドレスが取得できた場合
-if ip_address:
-    # 現在の位置情報を取得する
-    location_data = get_location(ip_address)
-    
-    if location_data:
-        # 地図を表示する
-        st.map((location_data['lat'], location_data['lon']))
-        
-        # 位置情報の詳細を表示する
-        st.write(f'現在地の情報:')
-        st.write(f'都市: {location_data["city"]}')
-        st.write(f'国: {location_data["country"]}')
-        st.write(f'緯度: {location_data["lat"]}')
-        st.write(f'経度: {location_data["lon"]}')
-        st.write(f'ISP: {location_data["isp"]}')
-    else:
-        st.write('位置情報が取得できませんでした。')
-else:
-    st.write('IPアドレスが取得できませんでした。')
+# Streamlitで地図を表示する
+folium_static(m)
