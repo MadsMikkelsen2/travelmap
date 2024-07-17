@@ -1,3 +1,9 @@
+pip install folium:
+
+pip list | grep folium:
+
+
+
 import folium
 import geocoder
 
